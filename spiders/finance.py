@@ -13,6 +13,16 @@ class FinanceSpider(scrapy.Spider):
     allowed_domains = ['http://stockpage.10jqka.com.cn']
     start_urls = ['http://basic.10jqka.com.cn/000001/finance.html#stockpage']
 
+    def three_table(self):
+        ul = driver.find_element_by_xpath("//*[@id='cwzbTable']/div[1]/ul")
+        lis = ul.find_elements_by_tag_name("li")
+        for li in lis :      
+            li.click()
+            time.sleep(1.5)
+            driver.find_element_by_xpath("//*[@id='exportButton']").click()
+            time.sleep(1.5)
+
+
     def parse(self, response):
         # title = response.xpath("//*[@id='in_squote']/div/h1/a[1]/strong/text()").extract()[0]
         # print(title)
@@ -20,76 +30,24 @@ class FinanceSpider(scrapy.Spider):
         stock_market = '1201'
         stock_name = '平安银行'
 
-        chrome_options = Options()
-        # chrome_options.add_argument('--headless')
-        # chrome_options.add_argument("--disable-extensions")
-        # chrome_options.add_experimental_option("profile.default_content_settings.popups", 0)
-        # chrome_options.add_experimental_option("download.prompt_for_download", "false")
-        # chrome_options.add_experimental_option("download.default_directory", "/mnt/d/test/")
-
-        # chrome_options.add_experimental_option("prefs", {
-        # "download.default_directory": "/mnt/d/test/",
-        # "download.prompt_for_download": False,
-        # "download.directory_upgrade": True,
-        # "safebrowsing.enabled": True
-        # })
-
-
-
-
-        # prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': "/mnt/d/test"}
-
-        # chrome_options.add_experimental_option('prefs', prefs)
-        
+        self.chrome_options = webdriver.ChromeOptions()
+        prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': 'd:\\test\\'}
+        self.chrome_options.add_experimental_option('prefs', prefs)
         driver = webdriver.Chrome(executable_path="/mnt/c/Program Files (x86)/Google/Chrome/Application/chromedriver.exe",chrome_options=chrome_options)
-
-        driver.get(self.start_urls[0])
-        
-
-        time.sleep(5)
-
-        # Income_statement =  driver.find_element(By.XPATH,"//*[@id='cwzbDemo']/div[2]/ul/li[3]/a").click()
-        # Income_statement =  driver.find_element_by_xpath("//*[@id='cwzbDemo']/div[2]/ul/li[3]/a").click()
-        # xpath_url = driver.find_element(By.XPATH,"//*[@id='exportButton']")
-        # xpath_url = "//*[@id='exportButton']"
-        # urls_pre = driver.find_elements_by_xpath("//*[@id='exportButton']/@href")
-        # url = urls_pre[0].get_attribute("href")
-        # url = drivers.find_element_by_xpath("//*[@id='exportButton']").get_attribute("href")
-
-        # url = driver.find_element("//*[@id='exportButton']").click()
-
-        try:
-            driver.find_element_by_xpath("//*[@id='cwzbDemo']/div[2]/ul/li[3]/a").click()
-        except :
-            print("11111")
-
-        
-        try :
-            driver.find_element_by_xpath("//*[@id='exportButton']").click()
-        except :
-            print("22222")
-        
-
-        # while 1:
-        #     start = time.clock()
-        #     try:
-        #         driver.find_element_by_xpath("//*[@id='exportButton']").click()
-        #         print ("已定位到元素2")
-        #         sleep(3)
-        #         end=time.clock()
-        #         break
-        #     except:
-        #         print ("还未定位到元素2!")
-
-        # print ('定位耗费时间：'+ str(end-start))
+        driver.get(self.start_urls)
+        time.sleep(3)
 
 
-        # print(url)
-        # driver.get(url)
-        # request.urlretrieve(url, "Income.txt")
-        # time.sleep(2)
+        # 资产负债表
+        driver.find_element_by_xpath("//*[@id='cwzbDemo']/div[2]/ul/li/a[contains(text(),'资产负债表')]").click()
+        three_table()
 
+        # 利润表
+        driver.find_element_by_xpath("//*[@id='cwzbDemo']/div[2]/ul/li/a[contains(text(),'利润表')]").click()
+        three_table()
 
-
+        # 现金流量表
+        driver.find_element_by_xpath("//*[@id='cwzbDemo']/div[2]/ul/li/a[contains(text(),'现金流量表')]").click()
+        three_table()
 
         pass
