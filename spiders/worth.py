@@ -17,12 +17,19 @@ driver = webdriver.Chrome(executable_path="/mnt/c/Program Files (x86)/Google/Chr
 driver.get(url)
 time.sleep(3)
 
-trs = driver.find_elements_by_xpath("//*[@id='forecast']/div[2]/div[2]/div[1]/table//tr")
-
+# 汇总--预测年报每股收益
+# title_profit = driver.find_elements_by_xpath("//*[@id='forecast']/div[2]/div[2]/div[1]/table/caption")
+# for title in title_profit:
+#     print(title.text)
+# print(title_profit)
+trs = driver.find_elements_by_xpath("//*[@id='forecast']/div[2]/div[2]/div[1]/table")
 for tr in trs :
-    a = tr.find_elements_by_xpath("/text")
-    print(a)
+    print(tr.text)
 
+# 
+trs = driver.find_elements_by_xpath("//*[@id='forecast']/div[2]/div[2]/div[2]/table")
+for tr in trs :
+    print(tr.text)
 
 
 
