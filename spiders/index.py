@@ -5,7 +5,7 @@ from selenium import webdriver
 
 class IndexSpider(scrapy.Spider):
     name = 'index'
-    allowed_domains = ['http://stockpage.10jqka.com.cn/HK8238/']
+    allowed_domains = ['stockpage.10jqka.com.cn']
     start_urls = ['http://stockpage.10jqka.com.cn/HK8238//']
 
      
