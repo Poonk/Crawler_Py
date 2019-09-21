@@ -44,16 +44,24 @@ DEFAULT_REQUEST_HEADERS = {
   'Accept': 'application/json, text/javascript, */*; q=0.01',
   'Accept-Language': 'en',
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
-  'Referer': 'http://stockpage.10jqka.com.cn/000001/funds/',
+#   'Referer': 'http://stockpage.10jqka.com.cn/000001/funds/',
+  'Referer': 'http://stockpage.10jqka.com.cn/HK8238/holder/',
   'hexin-v': 'AoLWfpHeay3bgXfxQd99gZUD04PnU46BOFh6qcyeq8uhYiw1tOPWfQjnyjSf',
 
 }
 
+
+# Enable or disable downloader middlewares
+# See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
+DOWNLOADER_MIDDLEWARES = {
+    'tutorial.middlewares.SeleniumMiddleware': 543,
+}
+
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'tutorial.middlewares.TutorialSpiderMiddleware': 543,
-#}
+# SPIDER_MIDDLEWARES = {
+#    'tutorial.middlewares.SeleniumMiddleware': 543,
+# }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html

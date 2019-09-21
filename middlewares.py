@@ -6,7 +6,28 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+import scrapy
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
 
+
+class SeleniumMiddleware(object):
+    def process_request(self, request, spider):
+        chrome_options = Options()
+        # chrome_options.add_argument('--headless')  # 使用无头谷歌浏览器模式
+        # chrome_options.add_argument('--disable-gpu')
+        # chrome_options.add_argument('--no-sandbox')
+        
+        # 指定谷歌浏览器路径
+        self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path="/mnt/c/Program Files (x86)/Google/Chrome/Application/chromedriver.exe")
+        if request.url != 'http://stockpage.10jqka.com.cn/HK8238/#quote':
+            self.driver.get(request.url)
+            time.sleep(1)
+            print(self.driver.title)
+            html = self.driver.page_source
+            self.driver.quit()
+            return scrapy.http.HtmlResponse(url=request.url, body=html.encode('utf-8'), encoding='utf-8',request=request)
 
 class TutorialSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
